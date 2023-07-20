@@ -68,3 +68,16 @@ reset.onclick = () => {
 	seconds.innerHTML = 0
 	second = 0
 }
+
+// ДЗ 4, ЧАСТЬ 2
+const request = new XMLHttpRequest()
+request.open('GET', '../json/user.json')
+request.setRequestHeader('Content-type', 'aplication/json')
+request.send()
+request.addEventListener('load', () => {
+	const data = JSON.parse(request.response)
+	data.forEach(obj => {
+		console.log(obj);
+	});
+})
+
