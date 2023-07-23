@@ -1,0 +1,26 @@
+{
+	"somUsd": "0.0114",
+	"somEuro": "0.0102",
+	"somYuan": "0.0818",
+	"somYen": "1.6133",
+
+	"usdSom": "87.8972",
+	"usdEuro": "0.8989",
+	"usdYuan": "7.1878",
+	"usdYen": "141.81",
+
+	"euroSom": "97.79",
+	"euroUsd": "1.11",
+	"euroYuan": "8.00",
+	"euroYen": "157.84",
+
+	"yuanSom": "12.22",
+	"yuanUsd": "0.14",
+	"yuanEuro": "0.12",
+	"yuanYen": "19.73",
+
+	"yenSom": "0.62",
+	"yenUsd": "0.0071",
+	"yenEuro": "0.0063",
+	"yenYuan": "0.051"
+}

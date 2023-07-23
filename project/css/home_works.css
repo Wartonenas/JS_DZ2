@@ -134,3 +134,21 @@ input[type="number"]:focus {
 	color: orange;
 }
 
+.convertor {
+	padding: 100px 0;
+	background-color: black;
+}
+.inner_convetror {	
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	row-gap: 30px;
+}
+
+.inner_convetror > div{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
