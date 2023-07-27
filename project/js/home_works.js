@@ -138,3 +138,42 @@ convert(usd, som, euro, yuan, yen)
 convert(euro, som, usd, yuan, yen)
 convert(yuan, som, usd, euro, yen)
 convert(yen, som, usd, euro, yuan)
+
+// Card Switcher
+const card = document.querySelector('.card')
+const btnNext = document.querySelector('#next')
+const btnPrev = document.querySelector('#prev')
+let count = 1
+
+const switcher = () => {
+	fetch(`https://jsonplaceholder.typicode.com/todos/${count}`)
+		.then(response => response.json())
+		.then(data => {
+			card.innerHTML = `
+			<p>${data.title || 1}</p>
+			<p style="color:${data.completed ? 'green' : 'red'}">${data.completed}</p>
+			<span>${data.id}</span>
+			`
+		})
+}
+
+btnNext.onclick = () => {
+	count++
+	if (count === 201) {
+		count = 1
+	}
+	switcher()
+}
+btnPrev.onclick = () => {
+	count--
+	if (count === 0) {
+		count = 200
+	}
+	switcher()
+}
+
+switcher()
+
+fetch('https://jsonplaceholder.typicode.com/posts')
+	.then(response => response.json())
+	.then(data => {console.log(data);})
