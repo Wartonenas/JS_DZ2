@@ -70,58 +70,52 @@ reset.onclick = () => {
 }
 
 // ДЗ 4, ЧАСТЬ 2
-const request = new XMLHttpRequest()
-request.open('GET', '../json/user.json')
-request.setRequestHeader('Content-type', 'aplication/json')
-request.send()
-request.addEventListener('load', () => {
-	const data = JSON.parse(request.response)
+const request = async () => {
+	const response = await fetch('../json/user.json')
+	const data = await response.json() 
 	data.forEach(obj => {
 		console.log(obj);
-	});
-})
+	})
+}
 
-// Convertot
-
+request()
+// Convertor
 const som = document.querySelector('#som')
 const usd = document.querySelector('#usd')
 const euro = document.querySelector('#euro')
 const yuan = document.querySelector('#yuan')
 const yen = document.querySelector('#yen')
 
-const convert = (input, conc1, conc2, conc3, conc4) => {
-	input.oninput = () => {
-		const request = new XMLHttpRequest()
-		request.open('GET', '../json/convertor.json')
-		request.setRequestHeader('Content-type', 'application/json')
-		request.send()
-		request.onload = () => {
-			const response = JSON.parse(request.response)
+const convert = async (input, conc1, conc2, conc3, conc4) => {
+	input.oninput = async () => {
+		try {
+			const response = await fetch(`../json/convertor.json`)
+			const data = await response.json()
 			if (input === som) {
-				conc1.value = (input.value * response.somUsd).toFixed(4);
-				conc2.value = (input.value * response.somEuro).toFixed(4)
-				conc3.value = (input.value * response.somYuan).toFixed(4)
-				conc4.value = (input.value * response.somYen).toFixed(4)
+				conc1.value = (input.value * data.somUsd).toFixed(2);
+				conc2.value = (input.value * data.somEuro).toFixed(2)
+				conc3.value = (input.value * data.somYuan).toFixed(2)
+				conc4.value = (input.value * data.somYen).toFixed(2)
 			} else if (input === usd) {
-				conc1.value = (input.value * response.usdSom).toFixed(4);
-				conc2.value = (input.value * response.usdEuro).toFixed(4)
-				conc3.value = (input.value * response.usdYuan).toFixed(4)
-				conc4.value = (input.value * response.usdYen).toFixed(4)
+				conc1.value = (input.value * data.usdSom).toFixed(2);
+				conc2.value = (input.value * data.usdEuro).toFixed(2)
+				conc3.value = (input.value * data.usdYuan).toFixed(2)
+				conc4.value = (input.value * data.usdYen).toFixed(2)
 			} else if (input === euro) {
-				conc1.value = (input.value * response.euroSom).toFixed(4);
-				conc2.value = (input.value * response.euroUsd).toFixed(4)
-				conc3.value = (input.value * response.euroYuan).toFixed(4)
-				conc4.value = (input.value * response.euroYen).toFixed(4)
+				conc1.value = (input.value * data.euroSom).toFixed(2);
+				conc2.value = (input.value * data.euroUsd).toFixed(2)
+				conc3.value = (input.value * data.euroYuan).toFixed(2)
+				conc4.value = (input.value * data.euroYen).toFixed(2)
 			} else if (input === yuan) {
-				conc1.value = (input.value * response.yuanSom).toFixed(4);
-				conc2.value = (input.value * response.yuanUsd).toFixed(4)
-				conc3.value = (input.value * response.yuanEuro).toFixed(4)
-				conc4.value = (input.value * response.yuanYen).toFixed(4)
+				conc1.value = (input.value * data.yuanSom).toFixed(2);
+				conc2.value = (input.value * data.yuanUsd).toFixed(2)
+				conc3.value = (input.value * data.yuanEuro).toFixed(2)
+				conc4.value = (input.value * data.yuanYen).toFixed(2)
 			} else if (input === yen) {
-				conc1.value = (input.value * response.yenSom).toFixed(4);
-				conc2.value = (input.value * response.yenUsd).toFixed(4)
-				conc3.value = (input.value * response.yenEuro).toFixed(4)
-				conc4.value = (input.value * response.yenYuan).toFixed(4)
+				conc1.value = (input.value * data.yenSom).toFixed(2);
+				conc2.value = (input.value * data.yenUsd).toFixed(2)
+				conc3.value = (input.value * data.yenEuro).toFixed(2)
+				conc4.value = (input.value * data.yenYuan).toFixed(2)
 			}
 			if (input.value === '') {
 				conc1.value = ''
@@ -129,6 +123,8 @@ const convert = (input, conc1, conc2, conc3, conc4) => {
 				conc3.value = ''
 				conc4.value = ''
 			}
+		} catch (e) {
+			console.error('Виноват JS рараб');
 		}
 	}
 }
@@ -145,16 +141,18 @@ const btnNext = document.querySelector('#next')
 const btnPrev = document.querySelector('#prev')
 let count = 1
 
-const switcher = () => {
-	fetch(`https://jsonplaceholder.typicode.com/todos/${count}`)
-		.then(response => response.json())
-		.then(data => {
-			card.innerHTML = `
-			<p>${data.title || 1}</p>
-			<p style="color:${data.completed ? 'green' : 'red'}">${data.completed}</p>
-			<span>${data.id}</span>
-			`
-		})
+const switcher = async () => {
+	try {
+		const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${count}`)
+		const data = await response.json()
+		card.innerHTML = `
+				<p>${data.title || 1}</p>
+				<p style="color:${data.completed ? 'green' : 'red'}">${data.completed}</p>
+				<span>${data.id}</span>
+				`
+	} catch (e) {
+		console.error('Виноват JS рараб');
+	}
 }
 
 btnNext.onclick = () => {
@@ -172,8 +170,15 @@ btnPrev.onclick = () => {
 	switcher()
 }
 
-switcher()
+switcher(count)
 
-fetch('https://jsonplaceholder.typicode.com/posts')
-	.then(response => response.json())
-	.then(data => {console.log(data);})
+const postsLog = async () => {
+	try {
+		const response = await fetch('https://jsonplaceholder.typicode.com/posts')
+		const data = await response.json()
+		console.log(data);
+	} catch (e) {
+		console.error('Виноват JS рараб');
+	}
+}
+postsLog()

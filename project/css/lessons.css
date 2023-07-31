@@ -97,3 +97,10 @@
 .cityInfo {
 	flex-direction: column;
 }
+
+.city, .temp {
+	text-align: center;
+	font-size: 30px;
+	color: white;
+	margin: 10px 0;
+}

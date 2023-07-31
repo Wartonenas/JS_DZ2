@@ -7,10 +7,10 @@ const regExp = /^\+996 \d{3} \d{2}-\d{2}-\d{2}$/
 
 phoneButton.onclick = () => {
 	if (regExp.test(phoneInput.value)) {
-		phoneResult.innerHTML = 'OK' 
+		phoneResult.innerHTML = 'OK'
 		phoneResult.style.color = 'green'
 	} else {
-		phoneResult.innerHTML = 'NOT OK' 
+		phoneResult.innerHTML = 'NOT OK'
 		phoneResult.style.color = 'red'
 	}
 }
@@ -19,6 +19,7 @@ phoneButton.onclick = () => {
 const tabContent = document.querySelectorAll('.tab_content_block')
 const tabsParent = document.querySelector('.tab_content_items')
 const tabs = document.querySelectorAll('.tab_content_item')
+let interval
 let index
 
 const hideTabContent = () => {
@@ -39,14 +40,17 @@ hideTabContent()
 showTabContent(index)
 
 const tabAuto = (i = 0) => {
-	setInterval(() => {
+	if (interval) {
+		clearInterval(interval)
+	}
+	interval = setInterval(() => {
 		i++
 		if (i > tabs.length - 1) {
 			i = 0
 		}
 		hideTabContent()
 		showTabContent(i)
-	} ,3000)
+	}, 3000)
 }
 
 tabsParent.onclick = (event) => {
@@ -57,8 +61,30 @@ tabsParent.onclick = (event) => {
 				hideTabContent()
 				showTabContent(tabIndex)
 			}
-		}) 
+		})
 	}
 }
 
 tabAuto(index)
+
+// WEATHER REPORT
+const cityName = document.querySelector('.cityName')
+const city = document.querySelector('.city')
+const temp = document.querySelector('.temp')
+const BASE_URL = 'http://api.openweathermap.org/data/2.5/weather'
+const apiKey = 'e417df62e04d3b1b111abeab19cea714'
+
+const citySearch = async () => {
+	try {
+		cityName.oninput = async (e) => {
+			const response = await fetch(`${BASE_URL}?q=${cityName.value}&appid=${apiKey}`)
+			const data = await response.json()
+				city.innerHTML = data?.name || 'Город не найден...'
+				temp.innerHTML = data?.main?.temp ? Math.round(data?.main?.temp - 273) + '&deg;C' : '...'
+		}
+	} catch (e) {
+		console.error('Виноват JS рараб');
+	}	
+}
+
+citySearch()
